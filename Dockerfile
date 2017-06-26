@@ -9,6 +9,7 @@ apk add --no-cache openssl python bash ;\
 wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GCLOUD_SDK_FILE} -O ${GCLOUD_PATH_PREFIX}/${GCLOUD_SDK_FILE} ;\
 tar zxvf /opt/${GCLOUD_SDK_FILE} -C /opt ;\
 rm -f /opt/${GCLOUD_SDK_FILE} ;\
-${GCLOUD_PATH_PREFIX}/google-cloud-sdk/install.sh --path-update true -q
+${GCLOUD_PATH_PREFIX}/google-cloud-sdk/install.sh --path-update false -q ;\
+for i in $(find ${GCLOUD_PATH_PREFIX}/google-cloud-sdk/bin -type f -maxdepth 1); do echo $i; ln -s $i /usr/local/bin/$(basename $i); done
 
 ENTRYPOINT []
