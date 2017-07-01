@@ -8,7 +8,8 @@ ADD https://storage.googleapis.com/kubernetes-release/release/v1.6.6/bin/linux/a
 RUN \
 chmod +x /usr/local/bin/kubectl ;\
 mkdir -p /opt ;\
-apk add --no-cache openssl python bash ;\
+echo "http://dl-cdn.alpinelinux.org/alpine/v3.5/edge" >> /etc/apk/repositories ;\
+apk add --no-cache openssl python bash gettext ;\
 wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GCLOUD_SDK_FILE} -O ${GCLOUD_PATH_PREFIX}/${GCLOUD_SDK_FILE} ;\
 tar zxvf /opt/${GCLOUD_SDK_FILE} -C /opt ;\
 rm -f /opt/${GCLOUD_SDK_FILE} ;\
