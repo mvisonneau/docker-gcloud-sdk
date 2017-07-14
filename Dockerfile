@@ -1,9 +1,9 @@
 FROM docker:latest
 
 ENV GCLOUD_PATH_PREFIX '/opt'
-ENV GCLOUD_SDK_FILE 'google-cloud-sdk-160.0.0-linux-x86_64.tar.gz'
+ENV GCLOUD_SDK_FILE 'google-cloud-sdk-162.0.1-linux-x86_64.tar.gz'
 
-ADD https://storage.googleapis.com/kubernetes-release/release/v1.6.6/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+ADD https://storage.googleapis.com/kubernetes-release/release/v1.6.7/bin/linux/amd64/kubectl /usr/local/bin/kubectl
 
 RUN \
 chmod +x /usr/local/bin/kubectl ;\
