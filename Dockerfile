@@ -1,19 +1,21 @@
-FROM docker:latest
+FROM docker:18.09.0-dind
 
-ENV GCLOUD_PATH_PREFIX '/opt'
-ENV GCLOUD_SDK_FILE 'google-cloud-sdk-162.0.1-linux-x86_64.tar.gz'
+ENV GOOGLE_SDK_VERSION 228.0.0
+ENV YAMLLINT_VERSION 1.11.1
 
-ADD https://storage.googleapis.com/kubernetes-release/release/v1.6.7/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+ADD https://storage.googleapis.com/kubernetes-release/release/v1.12.3/bin/linux/amd64/kubectl /usr/local/bin/kubectl
 
 RUN \
 chmod +x /usr/local/bin/kubectl ;\
-mkdir -p /opt ;\
-echo "http://dl-cdn.alpinelinux.org/alpine/v3.5/edge" >> /etc/apk/repositories ;\
-apk add --no-cache openssl python bash gettext ;\
-wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GCLOUD_SDK_FILE} -O ${GCLOUD_PATH_PREFIX}/${GCLOUD_SDK_FILE} ;\
-tar zxvf /opt/${GCLOUD_SDK_FILE} -C /opt ;\
-rm -f /opt/${GCLOUD_SDK_FILE} ;\
-${GCLOUD_PATH_PREFIX}/google-cloud-sdk/install.sh --path-update false -q ;\
-for i in $(find ${GCLOUD_PATH_PREFIX}/google-cloud-sdk/bin -type f -maxdepth 1); do echo $i; ln -s $i /usr/local/bin/$(basename $i); done
+apk --no-cache add git wget openssl python py-pip bash gettext jq ca-certificates gettext \
+&& wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GOOGLE_SDK_VERSION}-linux-x86_64.tar.gz -O /tmp/sdk.tar.gz \
+&& tar zxvf /tmp/sdk.tar.gz -C / \
+&& /google-cloud-sdk/install.sh --usage-reporting=false --path-update=true \
+&& /google-cloud-sdk/bin/gcloud --quiet components update \
+&& pip install -Iv --upgrade \
+     pip \
+     yamllint==${YAMLLINT_VERSION} \
+&& apk del py-pip \
+&& rm -f /tmp/sdk.tar.gz
 
 ENTRYPOINT []
