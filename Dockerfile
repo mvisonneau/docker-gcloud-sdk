@@ -1,9 +1,9 @@
-FROM docker:18.09.0-dind
+FROM docker:19.03.5
 
-ENV GOOGLE_SDK_VERSION 228.0.0
+ENV GOOGLE_SDK_VERSION 275.0.0
 ENV YAMLLINT_VERSION 1.11.1
 
-ADD https://storage.googleapis.com/kubernetes-release/release/v1.12.3/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+ADD https://storage.googleapis.com/kubernetes-release/release/v1.16.4/bin/linux/amd64/kubectl /usr/local/bin/kubectl
 
 RUN \
 chmod +x /usr/local/bin/kubectl ;\
